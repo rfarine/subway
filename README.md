@@ -13,3 +13,5 @@ then it will give directions:
 ride the 'L' train for 3 stops and get off at X"
 ride the 'L' train for 2 stops, transfer to the M train, ride it for X stops to Y"
 
+
+More directions: https://gist.github.com/rfarine/8045675
