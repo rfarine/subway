@@ -23,7 +23,7 @@ class UserInterrogator
 		}
 
 		stations.each do |key, value|
-			"#{key} : #{value.join(" on the ")}"
+			puts "#{key} : #{value.join(" on the ")}"
 		end
 	end	
 
@@ -34,8 +34,7 @@ class UserInterrogator
 		stations = session.display_station_list!
 		start = if stations.include?(ss) then
 			start = stations[ss]
-			puts "Your starting destination is: " + start.join(" on the ")
-			session.get_final_station!
+			puts start.join(" on the ")
 		else
 			puts "I can't seem to find your starting destination. Sucks for you."
 		end
@@ -48,7 +47,7 @@ class UserInterrogator
 		stations = session.display_station_list!
 		final = if stations.include?(fs) then
 			final = stations[fs]
-			puts "Your final destination is: " + final.join(" on the ")
+			puts final.join(" on the ")
 		else
 			puts "I can't seem to find your final destination. Sucks for you."
 		end
