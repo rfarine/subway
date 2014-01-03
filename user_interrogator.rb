@@ -1,6 +1,6 @@
 class UserInterrogator
-	def display_station_list!
-		stations = {
+	def initialize
+		@stations = {
 			"1" => ["Grand Street", "L"], ### L stations start
 			"2" => ["Graham Avenue", "L"],
 			"3" => ["Lorimer Street", "L"],
@@ -22,7 +22,10 @@ class UserInterrogator
 			"18" => ["57th Street", "F"]
 		}
 
-		stations.each do |key, value|
+	end
+
+	def display_station_list!
+		@stations.each do |key, value|
 			puts "#{key} : #{value.join(" on the ")}"
 		end
 	end	
@@ -30,23 +33,21 @@ class UserInterrogator
 	def get_starting_station!
 		puts "Which station # are you starting your journey?"
 		ss = gets.chomp	
-		session = UserInterrogator.new
-		stations = session.display_station_list!
-		start = if stations.include?(ss) then
-			start = stations[ss]
+		if @stations.include?(ss)
+			start = @stations[ss]
 			puts start.join(" on the ")
 		else
+			start = nil
 			puts "I can't find your starting station."
 		end
+		return start
 	end
 
 	def get_final_station!
 		puts "Which station # are you ending your journey?"
 		fs = gets.chomp	
-		session = UserInterrogator.new
-		stations = session.display_station_list!
-		final = if stations.include?(fs) then
-			final = stations[fs]
+		final = if @stations.include?(fs) then
+			final = @stations[fs]
 			puts final.join(" on the ")
 		else
 			puts "I can't find your final station."
