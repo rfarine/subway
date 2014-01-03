@@ -1,4 +1,4 @@
-require './lib/stations'
+require './stations'
 
 class UserInterrogator
 	def initialize
