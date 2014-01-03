@@ -1,6 +1,6 @@
 class Station
 	def self.list_stations
-		stations = {
+		@stations = {
 			"1" => ["Grand Street", "L"], ### L stations start
 			"2" => ["Graham Avenue", "L"],
 			"3" => ["Lorimer Street", "L"],
@@ -21,6 +21,6 @@ class Station
 			"17" => ["47-50 Streets-Rockefeller Center", "F"],
 			"18" => ["57th Street", "F"]
 		}
-		return stations
+		return @stations
 	end
 end
