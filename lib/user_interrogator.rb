@@ -1,8 +1,8 @@
-require './stations'
+require './lib/station'
 
 class UserInterrogator
 	def initialize
-		@stations = Stations.list_stations
+		@stations = Station.list_stations
 	end
 
 	def display_station_list!

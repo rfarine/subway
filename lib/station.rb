@@ -1,4 +1,4 @@
-class Stations
+class Station
 	def self.list_stations
 		stations = {
 			"1" => ["Grand Street", "L"], ### L stations start

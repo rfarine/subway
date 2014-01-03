@@ -1,4 +1,4 @@
-require './user_interrogator'
+require './lib/user_interrogator.rb'
 
 init = UserInterrogator.new
 init.display_station_list!
