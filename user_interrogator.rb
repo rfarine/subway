@@ -36,7 +36,7 @@ class UserInterrogator
 			start = stations[ss]
 			puts start.join(" on the ")
 		else
-			puts "I can't seem to find your starting destination. Sucks for you."
+			puts "I can't find your starting station."
 		end
 	end
 
@@ -49,7 +49,11 @@ class UserInterrogator
 			final = stations[fs]
 			puts final.join(" on the ")
 		else
-			puts "I can't seem to find your final destination. Sucks for you."
+			puts "I can't find your final station."
 		end
+	end
+
+	def give_directions(start, final)
+		puts "Start at: #{start} and get off at #{final}."
 	end
 end
