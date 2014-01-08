@@ -1,4 +1,10 @@
 class Station
+	def initialize(name = "Grand Street", line = "L")
+		#saving the parameters you get as instance variables (@)
+		@name = name
+		@line = line
+	end
+
 	def self.list_stations
 		@stations = {
 			"1" => ["Grand Street", "L"], ### L stations start
@@ -22,5 +28,13 @@ class Station
 			"18" => ["57th Street", "F"]
 		}
 		return @stations
+	end
+
+	def get_my_line
+		@line
+	end
+
+	def get_my_name
+		@name
 	end
 end
