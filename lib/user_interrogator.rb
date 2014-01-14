@@ -15,26 +15,34 @@ class UserInterrogator
 		puts "Which station # are you starting your journey?"
 		ss = gets.chomp	
 		if @stations.include?(ss)
-			start = @stations[ss]
-			puts start.join(" on the ")
+			starting_station = @stations[ss]
+			starting_station.each do |name,line|
+				@name = starting_station[0]
+				@line = starting_station[1]
+			end
+			@start = Station.new(@name,@line)
 		else
-			start = nil
+			@start = nil
 			puts "I can't find your starting station."
 		end
-		return start
+		return @start
 	end
 
 	def get_final_station!
 		puts "Which station # are you ending your journey?"
 		fs = gets.chomp	
 		if @stations.include?(fs) then
-			final = @stations[fs]
-			puts final.join(" on the ")
+			final_station = @stations[fs]
+			final_station.each do |name,line|
+				@name = final_station[0]
+				@line = final_station[1]
+			end
+			@final = Station.new(@name,@line)
 		else
-			final = nil
+			@final = nil
 			puts "I can't find your final station."
 		end
-		return final
+		return @final
 	end
 
 	def give_directions(start, final)

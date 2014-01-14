@@ -1,5 +1,5 @@
 class Station
-	def initialize(name = "Grand Street", line = "L")
+	def initialize(name="Grand Street", line="L")
 		#saving the parameters you get as instance variables (@)
 		@name = name
 		@line = line
