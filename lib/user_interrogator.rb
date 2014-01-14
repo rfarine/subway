@@ -45,7 +45,12 @@ class UserInterrogator
 		return @final
 	end
 
-	def give_directions(start, final)
-		puts "Start at: #{start} and get off at #{final}."
+	def direction_to_ride(start,final)
+		start_station = start.get_my_name
+		final_station = final.get_my_name
+		start = @stations.invert[start_station]
+		return start
 	end
+
+
 end
