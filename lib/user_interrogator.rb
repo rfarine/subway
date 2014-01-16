@@ -46,9 +46,10 @@ class UserInterrogator
 	end
 
 	def direction_to_ride(start,final)
-		start_station = start.get_my_name
-		final_station = final.get_my_name
-		start = @stations.invert[start_station]
+		# @start_name = start.get_my_name
+		# @final_name = final.get_my_name
+		# @start_entry = @stations.select { |number,stop| stop[0] == start_name }
+		# return @start_entry
 		return start
 	end
 
