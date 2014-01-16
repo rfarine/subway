@@ -45,12 +45,20 @@ class UserInterrogator
 		return @final
 	end
 
-	def direction_to_ride(start,final)
-		# @start_name = start.get_my_name
-		# @final_name = final.get_my_name
-		# @start_entry = @stations.select { |number,stop| stop[0] == start_name }
-		# return @start_entry
-		return start
+	def direction_to_ride_on_l(start,final)
+		# find entry in hash for start and final stops
+		start_entry = @stations.select { |number,stop| stop[0] == start.get_my_name }
+		final_entry = @stations.select { |number,stop| stop[0] == final.get_my_name }
+		start_num = start_entry.keys.to_s
+		final_num = final_entry.keys.to_s
+		if start_num < final_num
+			@direction = "Towards Manhattan"
+		elsif start_num > final_num
+			@direction = "Towards Brooklyn"
+		else
+			@direction = "Stay still"
+		end
+		puts @direction
 	end
 
 
