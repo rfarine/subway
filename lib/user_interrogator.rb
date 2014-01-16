@@ -52,13 +52,36 @@ class UserInterrogator
 		start_num = start_entry.keys.to_s
 		final_num = final_entry.keys.to_s
 		if start_num < final_num
-			@direction = "Towards Manhattan"
+			@l_direction = "towards Manhattan"
 		elsif start_num > final_num
-			@direction = "Towards Brooklyn"
+			@l_direction = "towards Brooklyn"
 		else
-			@direction = "Stay still"
+			@l_direction = "Stay still. You ain't movin."
 		end
-		puts @direction
+		return @l_direction
+	end
+
+	def direction_to_ride_on_f(start,final)
+		start_entry = @stations.select { |number,stop| stop[0] == start.get_my_name }
+		final_entry = @stations.select { |number,stop| stop[0] == final.get_my_name }
+		start_num = start_entry.keys.to_s
+		final_num = final_entry.keys.to_s
+		if final_num > start_num
+			@f_direction = "uptown"
+		elsif final_num < start_num
+			@f_direction = "downtown"
+		else
+			@f_direction = "Stay still. You ain't movin."
+		end
+		return @f_direction
+	end
+
+	def give_directions(start, final, direction)
+		start_stop = start.get_my_name
+		final_stop = final.get_my_name
+		start_line = start.get_my_line
+		final_line = final.get_my_line
+		puts "Get on the #{start_line} at #{start_stop} and take the train #{direction}, getting off at #{final_stop}."
 	end
 
 
