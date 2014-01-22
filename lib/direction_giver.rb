@@ -6,24 +6,25 @@ class DirectionGiver
 	end
 
 	def transit_instructions(start, final)
-		director = DirectionGiver.new
 
 		if start.get_my_line == "L" && final.get_my_line == "L"
-			direction = director.direction_on_l(start,final)
+			direction = direction_on_l(start,final)
 		elsif start.get_my_line == "F" && final.get_my_line == "F"
-			direction = director.direction_on_f(start,final)
+			direction = direction_on_f(start,final)
 		else
 			direction = nil
 			raise "You're trying to transfer and I'm just not prepared."
 		end
 
-		number_of_stops = director.number_of_stops(start,final)
+		number_of_stops = number_of_stops(start,final)
 
 		instructions = "Get on the #{start.get_my_line} at #{start.get_my_name} and take the train #{direction} for #{number_of_stops} stops, getting off at #{final.get_my_name}."
 
 		return instructions
 	end
 
+	private
+	
 	def direction_on_l(start,final)
 		# find entry in hash for start and final stops
 		start_entry = @stations.select { |number,stop| stop[0] == start.get_my_name }
