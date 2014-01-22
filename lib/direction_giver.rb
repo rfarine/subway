@@ -8,12 +8,13 @@ class DirectionGiver
 	def transit_instructions(start, final)
 		director = DirectionGiver.new
 
-		if start.get_my_line == "L"
+		if start.get_my_line == "L" && final.get_my_line == "L"
 			direction = director.direction_on_l(start,final)
-		elsif start.get_my_line == "F"
+		elsif start.get_my_line == "F" && final.get_my_line == "F"
 			direction = director.direction_on_f(start,final)
 		else
-			direction = "No direction."
+			direction = nil
+			raise "You're trying to transfer and I'm just not prepared."
 		end
 
 		number_of_stops = director.number_of_stops(start,final)

@@ -54,14 +54,20 @@ describe 'DirectionGiver' do
 		end
 	end
 
-
 	describe '## transit_instructions(start, final)' do
+		it { subject.should respond_to(:transit_instructions).with(2).argument }
 		it 'should return instructions for lorimer to 8th ave' do
 			subject.transit_instructions(lorimer,eighth_ave).should eq("Get on the L at Lorimer Street and take the train towards Manhattan for 6 stops, getting off at Eighth Avenue.")
 		end
 
 		it 'should return instructions for lorimer to 6th ave' do
 			subject.transit_instructions(lorimer,sixth_ave).should eq("Get on the L at Lorimer Street and take the train towards Manhattan for 5 stops, getting off at Sixth Avenue (14th Street).")
+		end
+
+		it 'should raise an error if start and final destination are on different lines' do
+			lambda {
+				subject.transit_instructions(lorimer,second_ave)
+			}.should raise_error
 		end
 	end
 
