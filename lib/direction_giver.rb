@@ -25,38 +25,35 @@ class DirectionGiver
 
 	def transfer_instructions(start,final)
 
-		start_line_1 = start.get_my_line # Line to get on first
-		start_name_1 = start.get_my_name # Stop to get on first
-		final_name_2 = final.get_my_name # Final stop to get off at
+		# Start1 - Starting Station
+		start1 = start
+		# Start_line - Starting Line
+		start_line = start.get_my_line
 
-		case start_line_1
+		case start_line
 		when "L"
-			start_station = Station.new(start_name_1,start_line_1)
-			transfer_station = Station.new("Sixth Avenue (14th Street)","F")
-			start_line_2 = "F" # Line to transfer to
-			transfer_name = "Sixth Avenue (14th Street)" # Transfer station
-			start_name_2 = "14th Street (Sixth Avenue)"
-			start_station_2 = Station.new(start_name_2, start_line_2)
-			direction_1 = direction_on_l(start_station, transfer_station) # Direction to ride L to transfer station
-			direction_2 = direction_on_f(start_station_2,final)
-			number_of_stops_1 = number_of_stops(start_station, transfer_station)
-			number_of_stops_2 = number_of_stops(start_station_2,final)
+			transfer = Station.new("Sixth Avenue (14th Street)","F") # Transfer - First stop. Get off here to board next train.
+			start2 = Station.new("14th Street (Sixth Avenue)", "F") # Start2 - Starting station for second train.
+
+			direction1 = direction_on_l(start1, transfer) # Direction1 - Direction to ride L to transfer station
+			direction2 = direction_on_f(start2,final) # Direction2 - Direction to ride F to final station
+			
+			stops1 = number_of_stops(start1, transfer) # Stops1 - Number of stops from starting station to transfer station
+			stops2 = number_of_stops(start2,final) # Stops2 - Number of stops from second starting station (start2) to final station
 		when "F"
-			start_station = Station.new(start_name_1,start_line_1)
-			transfer_station = Station.new("14th Street (Sixth Avenue)", "L")
-			start_line_2 = "L" # Line to transfer to
-			transfer_name = "14th Street (Sixth Avenue)"
-			start_name_2 = "Sixth Avenue (14th Street)"
-			start_station_2 = Station.new(start_name_2, start_line_2)
-			direction_1 = direction_on_f(start_station, transfer_station) # Direction to ride L to transfer station
-			direction_2 = direction_on_l(start_station_2,final)
-			number_of_stops_1 = number_of_stops(start_station, transfer_station)
-			number_of_stops_2 = number_of_stops(start_station_2,final)
+			transfer = Station.new("14th Street (Sixth Avenue)", "L")
+			start2 = Station.new("Sixth Avenue (14th Street)", "L")
+
+			direction1 = direction_on_f(start1, transfer)
+			direction2 = direction_on_l(start2,final)
+			
+			stops1 = number_of_stops(start1, transfer)
+			stops2 = number_of_stops(start2,final)
 		else
 			raise
 		end
 
-		instructions = "Get on the #{start_line_1} at #{start_name_1} and take the train #{direction_1} for #{number_of_stops_1} stops and get off at #{transfer_name}. Then, get on the #{start_line_2} at #{start_name_2}, ride the train #{direction_2} for #{number_of_stops_2} stops and get off at #{final_name_2}."
+		instructions = "Get on the #{start1.get_my_line} at #{start1.get_my_name} and take the train #{direction1} for #{stops1} stops and get off at #{transfer.get_my_name}. Then, get on the #{start2.get_my_line} at #{start2.get_my_name}, ride the train #{direction2} for #{stops2} stops and get off at #{final.get_my_name}."
 		return instructions
 	end
 
