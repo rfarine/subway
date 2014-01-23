@@ -20,11 +20,11 @@ describe 'DirectionGiver' do
 
 	describe '## transit_instructions(start, final)' do
 		it { subject.should respond_to(:transit_instructions).with(2).argument }
-		it 'should return instructions for lorimer to 8th ave' do
+		it 'should return instructions for Lorimer Street to Eighth Avenue' do
 			subject.transit_instructions(lorimer,eighth_ave).should eq("Get on the L at Lorimer Street and take the train towards Manhattan for 6 stops, getting off at Eighth Avenue.")
 		end
 
-		it 'should return instructions for lorimer to 6th ave' do
+		it 'should return instructions for Lorimer Street to Sixth Avenue (14th Street)' do
 			subject.transit_instructions(lorimer,sixth_ave).should eq("Get on the L at Lorimer Street and take the train towards Manhattan for 5 stops, getting off at Sixth Avenue (14th Street).")
 		end
 
@@ -32,6 +32,13 @@ describe 'DirectionGiver' do
 			lambda {
 				subject.transit_instructions(lorimer,second_ave)
 			}.should raise_error
+		end
+	end
+
+	describe '## transfer_instructions(start,final)' do
+		it { subject.should respond_to(:transfer_instructions).with(2).argument }
+		it 'should return instructions for Lorimer Street (L) to Second Avenue (F)' do
+			subject.transfer_instructions(lorimer,second_ave).should eq("Get on the L at Lorimer Street and take the train towards Manhattan for 5 stops and get off at Sixth Avenue (14th Street). Then, get on the F at 14th Street (Sixth Avenue), ride the train downtown for 3 stops and get off at Second Avenue.")
 		end
 	end
 

@@ -23,8 +23,35 @@ class DirectionGiver
 		return instructions
 	end
 
+	def transfer_instructions(start,final)
+
+		start_line_1 = start.get_my_line # Line to get on first
+		start_name_1 = start.get_my_name # Stop to get on first
+		final_name_2 = final.get_my_name # Final stop to get off at
+
+		case start_line_1
+		when "L"
+			start_line_2 = "F" # Line to transfer to
+			transfer_name = "Sixth Avenue (14th Street)" # Transfer station
+			transfer_entry = @stations.select { |number,stop| stop[0] == transfer_name } # Find the transfer station in the list of stations
+			direction_1 = direction_on_l(start, transfer_entry) # Direction to ride L to transfer station
+			number_of_stops_1 = number_of_stops(start, transfer_entry)
+		when "F"
+			start_line_2 = "L"
+			transfer_name = "14th Street (Sixth Avenue)"
+			transfer_entry = @stations.select { |number,stop| stop[0] == transfer_name } # Find the transfer station in the list of stations
+			direction_1 = direction_on_f(start, transfer_entry) # Direction to ride L to transfer station
+			number_of_stops_1 = number_of_stops(start, transfer_entry)
+		else
+			raise
+		end
+
+		instructions = "Get on the #{start_line_1} at #{start_name_1} and take the train #{direction_1} for #{number_of_stops_1} and get off at #{transfer_name}. Then, get on the #{start_line_2} at #{start_name_2}, ride the train #{direction_2} for #{number_of_stops_2} stops and get off at #{final_name_2}."
+		return instructions
+	end
+
 	private
-	
+
 	def direction_on_l(start,final)
 		# find entry in hash for start and final stops
 		start_entry = @stations.select { |number,stop| stop[0] == start.get_my_name }
@@ -56,18 +83,6 @@ class DirectionGiver
 			raise "Stay still. You ain't movin."
 		end
 		return @f_direction
-	end
-
-	def give_directions(start, final, direction, number_of_stops)
-		# TODO: Rename method to transit_instructions
-		if start != nil && final != nil && direction != nil && number_of_stops != 0
-			start_stop = start.get_my_name
-			final_stop = final.get_my_name
-			start_line = start.get_my_line
-			puts "Get on the #{start_line} at #{start_stop} and take the train #{direction} for #{number_of_stops} stops, getting off at #{final_stop}."
-		else
-			raise "You're not moving."
-		end
 	end
 
 	def number_of_stops(start,final)
