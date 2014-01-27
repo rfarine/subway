@@ -28,10 +28,9 @@ describe 'DirectionGiver' do
 			subject.transit_instructions(lorimer,sixth_ave).should eq("Get on the L at Lorimer Street and take the train towards Manhattan for 5 stops, getting off at Sixth Avenue (14th Street).")
 		end
 
-		it 'should raise an error if start and final destination are on different lines' do
-			lambda {
-				subject.transit_instructions(lorimer,second_ave)
-			}.should raise_error
+		it 'should call #transfer_instructions if there is a transfer' do
+			subject.should_receive(:transfer_instructions).with(lorimer,second_ave).and_return("Get on the L at Lorimer Street and take the train towards Manhattan for 5 stops and get off at Sixth Avenue (14th Street). Then, get on the F at 14th Street (Sixth Avenue), ride the train downtown for 3 stops and get off at Second Avenue.")
+			subject.transfer_instructions(lorimer,second_ave).should eq("Get on the L at Lorimer Street and take the train towards Manhattan for 5 stops and get off at Sixth Avenue (14th Street). Then, get on the F at 14th Street (Sixth Avenue), ride the train downtown for 3 stops and get off at Second Avenue.")
 		end
 	end
 

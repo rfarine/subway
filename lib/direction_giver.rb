@@ -9,18 +9,17 @@ class DirectionGiver
 
 		if start.get_my_line == "L" && final.get_my_line == "L"
 			direction = direction_on_l(start,final)
+			number_of_stops = number_of_stops(start,final)
+			instructions = "Get on the #{start.get_my_line} at #{start.get_my_name} and take the train #{direction} for #{number_of_stops} stops, getting off at #{final.get_my_name}."
+			return instructions
 		elsif start.get_my_line == "F" && final.get_my_line == "F"
 			direction = direction_on_f(start,final)
+			number_of_stops = number_of_stops(start,final)
+			instructions = "Get on the #{start.get_my_line} at #{start.get_my_name} and take the train #{direction} for #{number_of_stops} stops, getting off at #{final.get_my_name}."
+			return instructions
 		else
-			direction = nil
-			raise "You're trying to transfer and I'm just not prepared."
+			transfer_instructions(start,final)
 		end
-
-		number_of_stops = number_of_stops(start,final)
-
-		instructions = "Get on the #{start.get_my_line} at #{start.get_my_name} and take the train #{direction} for #{number_of_stops} stops, getting off at #{final.get_my_name}."
-
-		return instructions
 	end
 
 	def transfer_instructions(start,final)
