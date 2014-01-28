@@ -49,7 +49,7 @@ class DirectionGiver
 			stops1 = number_of_stops(start1, transfer)
 			stops2 = number_of_stops(start2,final)
 		else
-			raise
+			return false
 		end
 
 		instructions = "Get on the #{start1.get_my_line} at #{start1.get_my_name} and take the train #{direction1} for #{stops1} stops and get off at #{transfer.get_my_name}. Then, get on the #{start2.get_my_line} at #{start2.get_my_name}, ride the train #{direction2} for #{stops2} stops and get off at #{final.get_my_name}."
@@ -58,10 +58,13 @@ class DirectionGiver
 
 	private
 
+	def get_station_for(stop)
+		@stations.select { |number,station| station[0] == stop.get_my_name }
+	end
+
 	def direction_on_l(start,final)
-		# find entry in hash for start and final stops
-		start_entry = @stations.select { |number,stop| stop[0] == start.get_my_name }
-		final_entry = @stations.select { |number,stop| stop[0] == final.get_my_name }
+		start_entry = get_station_for(start)
+		final_entry = get_station_for(final)
 		start_num = start_entry.keys.to_s
 		final_num = final_entry.keys.to_s
 		if start_num < final_num
@@ -70,14 +73,13 @@ class DirectionGiver
 			@l_direction = "towards Brooklyn"
 		else
 			@l_direction = nil
-			raise "Stay still. You ain't movin."
 		end
 		return @l_direction
 	end
 
 	def direction_on_f(start,final)
-		start_entry = @stations.select { |number,stop| stop[0] == start.get_my_name }
-		final_entry = @stations.select { |number,stop| stop[0] == final.get_my_name }
+		start_entry = get_station_for(start)
+		final_entry = get_station_for(final)
 		start_num = start_entry.keys.first.to_s.to_i
 		final_num = final_entry.keys.first.to_s.to_i
 		if final_num > start_num
@@ -86,14 +88,13 @@ class DirectionGiver
 			@f_direction = "downtown"
 		else
 			@f_direction = nil
-			raise "Stay still. You ain't movin."
 		end
 		return @f_direction
 	end
 
 	def number_of_stops(start,final)
-		start_entry = @stations.select { |number,stop| stop[0] == start.get_my_name }
-		final_entry = @stations.select { |number,stop| stop[0] == final.get_my_name }
+		start_entry = get_station_for(start)
+		final_entry = get_station_for(final)
 		start_num = start_entry.keys.first.to_s.to_i
 		final_num = final_entry.keys.first.to_s.to_i
 		if final_num > start_num
