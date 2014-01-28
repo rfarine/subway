@@ -7,12 +7,15 @@ class DirectionGiver
 
 	def transit_instructions(start, final)
 
-		if start.get_my_line == "L" && final.get_my_line == "L"
+		start_line = start.get_my_line
+		final_line = final.get_my_line
+
+		if start_line == "L" &&final_line == "L"
 			direction = direction_on_l(start,final)
 			number_of_stops = number_of_stops(start,final)
 			instructions = "Get on the #{start.get_my_line} at #{start.get_my_name} and take the train #{direction} for #{number_of_stops} stops, getting off at #{final.get_my_name}."
 			return instructions
-		elsif start.get_my_line == "F" && final.get_my_line == "F"
+		elsif start_line == "F" && final_line == "F"
 			direction = direction_on_f(start,final)
 			number_of_stops = number_of_stops(start,final)
 			instructions = "Get on the #{start.get_my_line} at #{start.get_my_name} and take the train #{direction} for #{number_of_stops} stops, getting off at #{final.get_my_name}."
@@ -21,6 +24,8 @@ class DirectionGiver
 			transfer_instructions(start,final)
 		end
 	end
+
+	private
 
 	def transfer_instructions(start,final)
 
@@ -55,8 +60,6 @@ class DirectionGiver
 		instructions = "Get on the #{start1.get_my_line} at #{start1.get_my_name} and take the train #{direction1} for #{stops1} stops and get off at #{transfer.get_my_name}. Then, get on the #{start2.get_my_line} at #{start2.get_my_name}, ride the train #{direction2} for #{stops2} stops and get off at #{final.get_my_name}."
 		return instructions
 	end
-
-	private
 
 	def get_station_for(stop)
 		@stations.select { |number,station| station[0] == stop.get_my_name }
