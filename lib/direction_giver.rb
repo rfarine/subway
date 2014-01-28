@@ -10,7 +10,7 @@ class DirectionGiver
 		start_line = start.get_my_line
 		final_line = final.get_my_line
 
-		if start_line == "L" &&final_line == "L"
+		if start_line == "L" && final_line == "L"
 			direction = direction_on_l(start,final)
 			number_of_stops = number_of_stops(start,final)
 			instructions = "Get on the #{start.get_my_line} at #{start.get_my_name} and take the train #{direction} for #{number_of_stops} stops, getting off at #{final.get_my_name}."
