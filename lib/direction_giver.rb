@@ -65,11 +65,15 @@ class DirectionGiver
 		@stations.select { |number,station| station[0] == stop.get_my_name }
 	end
 
+	def get_key_for(station)
+		station.keys.first.to_s.to_i
+	end
+
 	def direction_on_l(start,final)
 		start_entry = get_station_for(start)
 		final_entry = get_station_for(final)
-		start_num = start_entry.keys.to_s
-		final_num = final_entry.keys.to_s
+		start_num = get_key_for(start_entry)
+		final_num = get_key_for(final_entry)
 		if start_num < final_num
 			@l_direction = "towards Manhattan"
 		elsif start_num > final_num
@@ -83,8 +87,8 @@ class DirectionGiver
 	def direction_on_f(start,final)
 		start_entry = get_station_for(start)
 		final_entry = get_station_for(final)
-		start_num = start_entry.keys.first.to_s.to_i
-		final_num = final_entry.keys.first.to_s.to_i
+		start_num = get_key_for(start_entry)
+		final_num = get_key_for(final_entry)
 		if final_num > start_num
 			@f_direction = "uptown"
 		elsif final_num < start_num
@@ -98,8 +102,8 @@ class DirectionGiver
 	def number_of_stops(start,final)
 		start_entry = get_station_for(start)
 		final_entry = get_station_for(final)
-		start_num = start_entry.keys.first.to_s.to_i
-		final_num = final_entry.keys.first.to_s.to_i
+		start_num = get_key_for(start_entry)
+		final_num = get_key_for(final_entry)
 		if final_num > start_num
 			@num_of_stops = final_num - start_num
 		elsif final_num < start_num
