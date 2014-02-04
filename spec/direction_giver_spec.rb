@@ -34,24 +34,21 @@ describe 'DirectionGiver' do
 		end
 	end
 
-
-	describe '## direction_on_l(start,final)' do
+	describe '## direction(start,final)' do
 		it 'should direct the user towards Manhattan' do
-			subject.send(:direction_on_l, lorimer, eighth_ave).should eq("towards Manhattan")
+			subject.send(:direction,lorimer,eighth_ave).should eq("towards Manhattan")
 		end
 
-		it 'should direct the user towards Brooklyn' do
-			subject.send(:direction_on_l, eighth_ave, lorimer).should eq("towards Brooklyn")
+		it 'should direct the user towards Brooklyn' do 
+			subject.send(:direction,eighth_ave,lorimer).should eq("towards Brooklyn")
 		end
-	end
 
-	describe '## direction_on_f(start,final)' do
 		it 'should direct the user uptown' do
-			subject.send(:direction_on_f, second_ave, west_fourth).should eq("uptown")
+			subject.send(:direction,second_ave,west_fourth).should eq("uptown")
 		end
 
 		it 'should direct the user downtown' do
-			subject.send(:direction_on_f, west_fourth, second_ave).should eq("downtown")
+			subject.send(:direction,west_fourth,second_ave).should eq("downtown")
 		end
 	end
 
@@ -66,5 +63,6 @@ describe 'DirectionGiver' do
 		end
 
 	end
+
 
 end

@@ -6,29 +6,19 @@ class DirectionGiver
 	end
 
 	def transit_instructions(start, final)
-
-		start_line = start.get_my_line
-		final_line = final.get_my_line
-
-		if start_line == "L" && final_line == "L"
-			direction = direction_on_l(start,final)
-			number_of_stops = number_of_stops(start,final)
-			instructions = "Get on the #{start.get_my_line} at #{start.get_my_name} and take the train #{direction} for #{number_of_stops} stops, getting off at #{final.get_my_name}."
-			return instructions
-		elsif start_line == "F" && final_line == "F"
-			direction = direction_on_f(start,final)
-			number_of_stops = number_of_stops(start,final)
-			instructions = "Get on the #{start.get_my_line} at #{start.get_my_name} and take the train #{direction} for #{number_of_stops} stops, getting off at #{final.get_my_name}."
-			return instructions
-		else
+		if start.get_my_line != final.get_my_line
 			transfer_instructions(start,final)
+		else
+			direction = direction(start,final)
+			number_of_stops = number_of_stops(start,final)
+			instructions = "Get on the #{start.get_my_line} at #{start.get_my_name} and take the train #{direction} for #{number_of_stops} stops, getting off at #{final.get_my_name}."
+			return instructions
 		end
 	end
 
 	private
 
 	def transfer_instructions(start,final)
-
 		# Start1 - Starting Station
 		start1 = start
 		# Start_line - Starting Line
@@ -39,8 +29,8 @@ class DirectionGiver
 			transfer = Station.new("Sixth Avenue (14th Street)","F") # Transfer - First stop. Get off here to board next train.
 			start2 = Station.new("14th Street (Sixth Avenue)", "F") # Start2 - Starting station for second train.
 
-			direction1 = direction_on_l(start1, transfer) # Direction1 - Direction to ride L to transfer station
-			direction2 = direction_on_f(start2,final) # Direction2 - Direction to ride F to final station
+			direction1 = direction(start1, transfer) # Direction1 - Direction to ride L to transfer station
+			direction2 = direction(start2,final) # Direction2 - Direction to ride F to final station
 			
 			stops1 = number_of_stops(start1, transfer) # Stops1 - Number of stops from starting station to transfer station
 			stops2 = number_of_stops(start2,final) # Stops2 - Number of stops from second starting station (start2) to final station
@@ -48,8 +38,8 @@ class DirectionGiver
 			transfer = Station.new("14th Street (Sixth Avenue)", "L")
 			start2 = Station.new("Sixth Avenue (14th Street)", "L")
 
-			direction1 = direction_on_f(start1, transfer)
-			direction2 = direction_on_l(start2,final)
+			direction1 = direction(start1, transfer)
+			direction2 = direction(start2,final)
 			
 			stops1 = number_of_stops(start1, transfer)
 			stops2 = number_of_stops(start2,final)
@@ -69,34 +59,34 @@ class DirectionGiver
 		station.keys.first.to_s.to_i
 	end
 
-	def direction_on_l(start,final)
+	def direction(start,final)
+		start_line = start.get_my_line
 		start_entry = get_station_for(start)
 		final_entry = get_station_for(final)
 		start_num = get_key_for(start_entry)
 		final_num = get_key_for(final_entry)
-		if start_num < final_num
-			@l_direction = "towards Manhattan"
-		elsif start_num > final_num
-			@l_direction = "towards Brooklyn"
-		else
-			@l_direction = nil
-		end
-		return @l_direction
-	end
 
-	def direction_on_f(start,final)
-		start_entry = get_station_for(start)
-		final_entry = get_station_for(final)
-		start_num = get_key_for(start_entry)
-		final_num = get_key_for(final_entry)
-		if final_num > start_num
-			@f_direction = "uptown"
-		elsif final_num < start_num
-			@f_direction = "downtown"
+		case start_line
+		when "L"
+			if start_num < final_num
+				@direction = "towards Manhattan"
+			elsif start_num > final_num
+				@direction = "towards Brooklyn"
+			else
+				@direction = nil
+			end
+		when "F"
+			if final_num > start_num
+				@direction = "uptown"
+			elsif final_num < start_num
+				@direction = "downtown"
+			else
+				@direction = nil
+			end
 		else
-			@f_direction = nil
+			@direction = nil
 		end
-		return @f_direction
+		return @direction
 	end
 
 	def number_of_stops(start,final)
