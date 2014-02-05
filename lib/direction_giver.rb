@@ -29,10 +29,10 @@ class DirectionGiver
 
 		case start_line
 		when "L"
-			if final_line == "F"
+			if final_line == "F" ## L --> F
 				transfer = l_stop
 				start2 = f_stop
-			elsif final_line == "G"
+			elsif final_line == "G" ## L --> G
 				transfer = l_g_stop
 				start2 = g_stop
 			else
@@ -44,7 +44,7 @@ class DirectionGiver
 			stops2 = number_of_stops(start2,final)
 			instructions = "Get on the #{start1.get_my_line} at #{start1.get_my_name} and take the train #{direction1} for #{stops1} stops and get off at #{transfer.get_my_name}. Then, get on the #{start2.get_my_line} at #{start2.get_my_name}, ride the train #{direction2} for #{stops2} stops and get off at #{final.get_my_name}."
 		when "F"
-			if final_line == "L"
+			if final_line == "L" ## F --> L
 				transfer = f_stop
 				start2 = l_stop
 				direction1 = direction(start1, transfer)
@@ -52,7 +52,7 @@ class DirectionGiver
 				stops1 = number_of_stops(start1, transfer)
 				stops2 = number_of_stops(start2,final)
 				instructions = "Get on the #{start1.get_my_line} at #{start1.get_my_name} and take the train #{direction1} for #{stops1} stops and get off at #{transfer.get_my_name}. Then, get on the #{start2.get_my_line} at #{start2.get_my_name}, ride the train #{direction2} for #{stops2} stops and get off at #{final.get_my_name}."
-			elsif final_line == "G"
+			elsif final_line == "G" ## F --> L --> G
 				transfer = f_stop
 				transfer2 = l_g_stop
 				start2 = l_stop
@@ -69,7 +69,7 @@ class DirectionGiver
 			end
 		when "G"
 			## TO DO
-			if final_line == "L"
+			if final_line == "L" ## G --> L
 				transfer = g_stop
 				start2 = l_g_stop
 				direction1 = direction(start1, transfer)
@@ -77,7 +77,7 @@ class DirectionGiver
 				stops1 = number_of_stops(start1, transfer)
 				stops2 = number_of_stops(start2,final)
 				instructions = "Get on the #{start1.get_my_line} at #{start1.get_my_name} and take the train #{direction1} for #{stops1} stops and get off at #{transfer.get_my_name}. Then, get on the #{start2.get_my_line} at #{start2.get_my_name}, ride the train #{direction2} for #{stops2} stops and get off at #{final.get_my_name}."
-			elsif final_line == "F"
+			elsif final_line == "F" ## G --> L --> F
 				transfer = g_stop
 				transfer2 = l_stop
 				start2 = l_g_stop
