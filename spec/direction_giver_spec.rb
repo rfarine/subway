@@ -28,51 +28,27 @@ describe 'DirectionGiver' do
 			subject.transit_instructions(lorimer,sixth_ave).should eq("Get on the L at Lorimer Street and take the train towards Manhattan for 5 stops, getting off at Sixth Avenue (14th Street).")
 		end
 
-		it 'should raise an error if start and final destination are on different lines' do
-			lambda {
-				subject.transit_instructions(lorimer,second_ave)
-			}.should raise_error
+		it 'should call #transfer_instructions if there is a transfer' do
+			subject.should_receive(:transfer_instructions).with(lorimer,second_ave).and_return("Get on the L at Lorimer Street and take the train towards Manhattan for 5 stops and get off at Sixth Avenue (14th Street). Then, get on the F at 14th Street (Sixth Avenue), ride the train downtown for 3 stops and get off at Second Avenue.")
+			subject.send(:transfer_instructions,lorimer,second_ave).should eq("Get on the L at Lorimer Street and take the train towards Manhattan for 5 stops and get off at Sixth Avenue (14th Street). Then, get on the F at 14th Street (Sixth Avenue), ride the train downtown for 3 stops and get off at Second Avenue.")
 		end
 	end
 
-	describe '## transfer_instructions(start,final)' do
-		it { subject.should respond_to(:transfer_instructions).with(2).argument }
-		it 'should return instructions for Lorimer Street (L) to Second Avenue (F)' do
-			subject.transfer_instructions(lorimer,second_ave).should eq("Get on the L at Lorimer Street and take the train towards Manhattan for 5 stops and get off at Sixth Avenue (14th Street). Then, get on the F at 14th Street (Sixth Avenue), ride the train downtown for 3 stops and get off at Second Avenue.")
-		end
-	end
-
-	describe '## direction_on_l(start,final)' do
-
+	describe '## direction(start,final)' do
 		it 'should direct the user towards Manhattan' do
-			subject.send(:direction_on_l, lorimer, eighth_ave).should eq("towards Manhattan")
+			subject.send(:direction,lorimer,eighth_ave).should eq("towards Manhattan")
 		end
 
-		it 'should direct the user towards Brooklyn' do
-			subject.send(:direction_on_l, eighth_ave, lorimer).should eq("towards Brooklyn")
+		it 'should direct the user towards Brooklyn' do 
+			subject.send(:direction,eighth_ave,lorimer).should eq("towards Brooklyn")
 		end
-
-		it 'should raise an error, because they used identical starting and final stops' do
-			lambda {
-				subject.send(:direction_on_l, eighth_ave, eighth_ave)
-			}.should raise_error
-		end
-	end
-
-	describe '## direction_on_f(start,final)' do
 
 		it 'should direct the user uptown' do
-			subject.send(:direction_on_f, second_ave, west_fourth).should eq("uptown")
+			subject.send(:direction,second_ave,west_fourth).should eq("uptown")
 		end
 
 		it 'should direct the user downtown' do
-			subject.send(:direction_on_f, west_fourth, second_ave).should eq("downtown")
-		end
-
-		it 'should raise an error, because they used identical starting and final stops' do
-			lambda {
-				subject.send(:direction_on_f, west_fourth, west_fourth)
-			}.should raise_error
+			subject.send(:direction,west_fourth,second_ave).should eq("downtown")
 		end
 	end
 
@@ -87,5 +63,6 @@ describe 'DirectionGiver' do
 		end
 
 	end
+
 
 end

@@ -6,105 +6,77 @@ class DirectionGiver
 	end
 
 	def transit_instructions(start, final)
-
-		if start.get_my_line == "L" && final.get_my_line == "L"
-			direction = direction_on_l(start,final)
-		elsif start.get_my_line == "F" && final.get_my_line == "F"
-			direction = direction_on_f(start,final)
+		if start.get_my_line != final.get_my_line
+			transfer_instructions(start,final)
 		else
-			direction = nil
-			raise "You're trying to transfer and I'm just not prepared."
+			direction = direction(start,final)
+			number_of_stops = number_of_stops(start,final)
+			instructions = "Get on the #{start.get_my_line} at #{start.get_my_name} and take the train #{direction} for #{number_of_stops} stops, getting off at #{final.get_my_name}."
+			return instructions
 		end
-
-		number_of_stops = number_of_stops(start,final)
-
-		instructions = "Get on the #{start.get_my_line} at #{start.get_my_name} and take the train #{direction} for #{number_of_stops} stops, getting off at #{final.get_my_name}."
-
-		return instructions
-	end
-
-	def transfer_instructions(start,final)
-
-		# Start1 - Starting Station
-		start1 = start
-		# Start_line - Starting Line
-		start_line = start.get_my_line
-
-		case start_line
-		when "L"
-			transfer = Station.new("Sixth Avenue (14th Street)","F") # Transfer - First stop. Get off here to board next train.
-			start2 = Station.new("14th Street (Sixth Avenue)", "F") # Start2 - Starting station for second train.
-
-			direction1 = direction_on_l(start1, transfer) # Direction1 - Direction to ride L to transfer station
-			direction2 = direction_on_f(start2,final) # Direction2 - Direction to ride F to final station
-			
-			stops1 = number_of_stops(start1, transfer) # Stops1 - Number of stops from starting station to transfer station
-			stops2 = number_of_stops(start2,final) # Stops2 - Number of stops from second starting station (start2) to final station
-		when "F"
-			transfer = Station.new("14th Street (Sixth Avenue)", "L")
-			start2 = Station.new("Sixth Avenue (14th Street)", "L")
-
-			direction1 = direction_on_f(start1, transfer)
-			direction2 = direction_on_l(start2,final)
-			
-			stops1 = number_of_stops(start1, transfer)
-			stops2 = number_of_stops(start2,final)
-		else
-			raise
-		end
-
-		instructions = "Get on the #{start1.get_my_line} at #{start1.get_my_name} and take the train #{direction1} for #{stops1} stops and get off at #{transfer.get_my_name}. Then, get on the #{start2.get_my_line} at #{start2.get_my_name}, ride the train #{direction2} for #{stops2} stops and get off at #{final.get_my_name}."
-		return instructions
 	end
 
 	private
 
-	def direction_on_l(start,final)
-		# find entry in hash for start and final stops
-		start_entry = @stations.select { |number,stop| stop[0] == start.get_my_name }
-		final_entry = @stations.select { |number,stop| stop[0] == final.get_my_name }
-		start_num = start_entry.keys.to_s
-		final_num = final_entry.keys.to_s
-		if start_num < final_num
-			@l_direction = "towards Manhattan"
-		elsif start_num > final_num
-			@l_direction = "towards Brooklyn"
+	def transfer_instructions(start,final)
+		start1 = start
+		start_line = start.get_my_line
+		l_stop = Station.new("Sixth Avenue (14th Street)","L")
+		f_stop = Station.new("14th Street (Sixth Avenue)", "F")
+
+		case start_line
+		when "L"
+			transfer = l_stop
+			start2 = f_stop
+			direction1 = direction(start1, transfer)
+			direction2 = direction(start2,final)
+			stops1 = number_of_stops(start1, transfer)
+			stops2 = number_of_stops(start2,final)
+		when "F"
+			transfer = f_stop
+			start2 = l_stop
+			direction1 = direction(start1, transfer)
+			direction2 = direction(start2,final)
+			stops1 = number_of_stops(start1, transfer)
+			stops2 = number_of_stops(start2,final)
 		else
-			@l_direction = nil
-			raise "Stay still. You ain't movin."
+			return false
 		end
-		return @l_direction
+		instructions = "Get on the #{start1.get_my_line} at #{start1.get_my_name} and take the train #{direction1} for #{stops1} stops and get off at #{transfer.get_my_name}. Then, get on the #{start2.get_my_line} at #{start2.get_my_name}, ride the train #{direction2} for #{stops2} stops and get off at #{final.get_my_name}."
+		return instructions
 	end
 
-	def direction_on_f(start,final)
-		start_entry = @stations.select { |number,stop| stop[0] == start.get_my_name }
-		final_entry = @stations.select { |number,stop| stop[0] == final.get_my_name }
-		start_num = start_entry.keys.first.to_s.to_i
-		final_num = final_entry.keys.first.to_s.to_i
-		if final_num > start_num
-			@f_direction = "uptown"
-		elsif final_num < start_num
-			@f_direction = "downtown"
+	def get_station_for(stop)
+		@stations.select { |number,station| station[0] == stop.get_my_name }
+	end
+
+	def get_key_for(station)
+		station.keys.first.to_s.to_i
+	end
+
+	def direction(start,final)
+		start_line = start.get_my_line
+		start_entry = get_station_for(start)
+		final_entry = get_station_for(final)
+		start_num = get_key_for(start_entry)
+		final_num = get_key_for(final_entry)
+
+		@direction = case start_line
+		when "L"
+			start_num < final_num ? "towards Manhattan" : "towards Brooklyn"
+		when "F"
+			final_num > start_num ? "uptown" : "downtown"
 		else
-			@f_direction = nil
-			raise "Stay still. You ain't movin."
+			nil
 		end
-		return @f_direction
 	end
 
 	def number_of_stops(start,final)
-		start_entry = @stations.select { |number,stop| stop[0] == start.get_my_name }
-		final_entry = @stations.select { |number,stop| stop[0] == final.get_my_name }
-		start_num = start_entry.keys.first.to_s.to_i
-		final_num = final_entry.keys.first.to_s.to_i
-		if final_num > start_num
-			@num_of_stops = final_num - start_num
-		elsif final_num < start_num
-			@num_of_stops = start_num - final_num
-		else
-			@num_of_stops = 0
-		end
-		return @num_of_stops
+		start_entry = get_station_for(start)
+		final_entry = get_station_for(final)
+		start_num = get_key_for(start_entry)
+		final_num = get_key_for(final_entry)
+		@num_of_stops = final_num > start_num ? final_num - start_num : start_num - final_num
 	end
 
 end
