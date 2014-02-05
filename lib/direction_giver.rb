@@ -23,7 +23,7 @@ class DirectionGiver
 		start_line = start.get_my_line
 		final_line = final.get_my_line
 		l_stop = Station.new("Sixth Avenue (14th Street)","L")
-		l_to_g_stop = Station.new("Lorimer Street", "L")
+		l_g_stop = Station.new("Lorimer Street", "L")
 		f_stop = Station.new("14th Street (Sixth Avenue)", "F")
 		g_stop = Station.new("Metropolitan Avenue", "G")
 
@@ -33,7 +33,7 @@ class DirectionGiver
 				transfer = l_stop
 				start2 = f_stop
 			elsif final_line == "G"
-				transfer = l_to_g_stop
+				transfer = l_g_stop
 				start2 = g_stop
 			else
 				raise
@@ -54,7 +54,7 @@ class DirectionGiver
 				instructions = "Get on the #{start1.get_my_line} at #{start1.get_my_name} and take the train #{direction1} for #{stops1} stops and get off at #{transfer.get_my_name}. Then, get on the #{start2.get_my_line} at #{start2.get_my_name}, ride the train #{direction2} for #{stops2} stops and get off at #{final.get_my_name}."
 			elsif final_line == "G"
 				transfer = f_stop
-				transfer2 = l_to_g_stop
+				transfer2 = l_g_stop
 				start2 = l_stop
 				start3 = g_stop
 				direction1 = direction(start1, transfer)
@@ -70,7 +70,25 @@ class DirectionGiver
 		when "G"
 			## TO DO
 			if final_line == "L"
+				transfer = g_stop
+				start2 = l_g_stop
+				direction1 = direction(start1, transfer)
+				direction2 = direction(start2,final)
+				stops1 = number_of_stops(start1, transfer)
+				stops2 = number_of_stops(start2,final)
+				instructions = "Get on the #{start1.get_my_line} at #{start1.get_my_name} and take the train #{direction1} for #{stops1} stops and get off at #{transfer.get_my_name}. Then, get on the #{start2.get_my_line} at #{start2.get_my_name}, ride the train #{direction2} for #{stops2} stops and get off at #{final.get_my_name}."
 			elsif final_line == "F"
+				transfer = g_stop
+				transfer2 = l_stop
+				start2 = l_g_stop
+				start3 = f_stop
+				direction1 = direction(start1, transfer)
+				direction2 = direction(start2, transfer2)
+				direction3 = direction(start3, final)
+				stops1 = number_of_stops(start1, transfer)
+				stops2 = number_of_stops(start2, transfer2)
+				stops3 = number_of_stops(start3, final)
+				instructions = "Get on the #{start1.get_my_line} at #{start1.get_my_name} and take the train #{direction1} for #{stops1} stops and get off at #{transfer.get_my_name}. Then, get on the #{start2.get_my_line} at #{start2.get_my_name}, ride the train #{direction2} for #{stops2} stops and get off at #{transfer2.get_my_name}. Finally, get on the #{start3.get_my_line} at #{start3.get_my_name} and take the train #{direction3} for #{stops3} stops and get off at #{final.get_my_name}."
 			else
 				raise
 			end
