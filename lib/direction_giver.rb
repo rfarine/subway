@@ -27,7 +27,7 @@ class DirectionGiver
 		final_line = final.get_my_line
 		case start_line
 		when "L"
-			transfer_once(start,final)
+			@instructions = transfer_once(start,final)
 		when "F"
 			@instructions = if final_line == "L" ## F --> L
 				transfer_once(start,final)
