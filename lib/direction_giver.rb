@@ -26,9 +26,9 @@ class DirectionGiver
 		final_line = final.get_my_line
 		case start_line
 		when 'L'
-			@instructions = transfer_once(start, final)
+			transfer_once(start, final)
 		when 'F'
-			@instructions = if final_line == 'L' ## F --> L
+			if final_line == 'L' ## F --> L
 				transfer_once(start, final)
 			elsif final_line == 'G' ## F --> L --> G
 				transfer_twice(start, final)
@@ -36,7 +36,7 @@ class DirectionGiver
 				raise
 			end
 		when 'G'
-			@instructions = if final_line == 'L' ## G --> L
+			if final_line == 'L' ## G --> L
 				transfer_once(start, final)
 			elsif final_line == 'F' ## G --> L --> F
 				transfer_twice(start, final)
@@ -129,7 +129,7 @@ class DirectionGiver
 		start_num = get_key_for(start_entry)
 		final_num = get_key_for(final_entry)
 
-		@direction = case start_line
+		case start_line
 		when 'L'
 			start_num < final_num ? 'towards Manhattan' : 'towards Brooklyn'
 		when 'F'
