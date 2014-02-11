@@ -1,12 +1,11 @@
 class Station
 	def initialize(name="Grand Street", line="L")
-		#saving the parameters you get as instance variables (@)
 		@name = name
 		@line = line
 	end
 
 	def self.list_stations
-		@stations = {
+		{
 			"1" => ["Grand Street", "L"], ### L stations start
 			"2" => ["Graham Avenue", "L"],
 			"3" => ["Lorimer Street", "L"],
@@ -37,7 +36,6 @@ class Station
 			"26" => ["Classon Avenue", "G"],
 			"27" => ["Clinton-Washington Avenues", "G"]
 		}
-		return @stations
 	end
 
 	def get_my_line
