@@ -34,32 +34,42 @@ describe 'DirectionGiver' do
 		end
 	end
 
-	describe '## direction(start,final)' do
-		it 'should direct the user towards Manhattan' do
-			subject.send(:direction,lorimer,eighth_ave).should eq("towards Manhattan")
+	context 'private methods' do
+
+		describe '## transfer_once(start,final)' do
+			it 'should return instructions for the L to the F transfer' do
+				subject.send(:transfer_once,lorimer,second_ave).should eq("Get on the L at Lorimer Street and take the train towards Manhattan for 5 stops and get off at Sixth Avenue (14th Street). Then, get on the F at 14th Street (Sixth Avenue), ride the train downtown for 3 stops and get off at Second Avenue.")
+			end
 		end
 
-		it 'should direct the user towards Brooklyn' do 
-			subject.send(:direction,eighth_ave,lorimer).should eq("towards Brooklyn")
+		describe '## direction(start,final)' do
+			it 'should direct the user towards Manhattan' do
+				subject.send(:direction,lorimer,eighth_ave).should eq("towards Manhattan")
+			end
+
+			it 'should direct the user towards Brooklyn' do 
+				subject.send(:direction,eighth_ave,lorimer).should eq("towards Brooklyn")
+			end
+
+			it 'should direct the user uptown' do
+				subject.send(:direction,second_ave,west_fourth).should eq("uptown")
+			end
+
+			it 'should direct the user downtown' do
+				subject.send(:direction,west_fourth,second_ave).should eq("downtown")
+			end
 		end
 
-		it 'should direct the user uptown' do
-			subject.send(:direction,second_ave,west_fourth).should eq("uptown")
-		end
+		describe '## number_of_stops(start,final)' do
 
-		it 'should direct the user downtown' do
-			subject.send(:direction,west_fourth,second_ave).should eq("downtown")
-		end
-	end
+			it 'should return 0' do
+				subject.send(:number_of_stops, lorimer, lorimer).should eq(0)
+			end
 
-	describe '## number_of_stops(start,final)' do
+			it 'should return 6' do
+				subject.send(:number_of_stops, lorimer, eighth_ave).should eq(6)
+			end
 
-		it 'should return 0' do
-			subject.send(:number_of_stops, lorimer, lorimer).should eq(0)
-		end
-
-		it 'should return 6' do
-			subject.send(:number_of_stops, lorimer, eighth_ave).should eq(6)
 		end
 
 	end

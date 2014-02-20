@@ -6,5 +6,5 @@ director = DirectionGiver.new
 init.display_station_list!
 start = init.get_starting_station!
 final = init.get_final_station!
-instructions = director.transit_instructions(start, final)
-puts instructions
+puts director.transit_instructions(start, final)
+
