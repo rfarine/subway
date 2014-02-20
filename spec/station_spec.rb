@@ -10,26 +10,26 @@ describe 'Station' do
 
 		it 'should initialize with L as the default train line' do
 			station = Station.new
-			station.get_my_line.should eq('L')
+			station.line.should eq('L')
 		end
 
 		it 'should initialize with Grand Street as the default station name' do
 			station = Station.new
-			station.get_my_name.should eq('Grand Street')
+			station.name.should eq('Grand Street')
 		end
 	end
 
-	describe '## get_my_name' do
+	describe '## name' do
 		it 'should retrieve station name initialized in parameters' do
 			station = Station.new('Graham Avenue', 'L')
-			station.get_my_name.should eq('Graham Avenue')
+			station.name.should eq('Graham Avenue')
 		end
 	end
 
-	describe '## get_my_line' do
+	describe '## line' do
 		it 'should return train line initialized in parameters' do
 			station = Station.new("Second Avenue", "F")
-			station.get_my_line.should eq('F')
+			station.line.should eq('F')
 		end
 	end
 

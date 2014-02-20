@@ -1,4 +1,6 @@
 class Station
+	attr_accessor :name, :line
+
 	def initialize(name="Grand Street", line="L")
 		@name = name
 		@line = line
@@ -36,13 +38,5 @@ class Station
 			"26" => ["Classon Avenue", "G"],
 			"27" => ["Clinton-Washington Avenues", "G"]
 		}
-	end
-
-	def get_my_line
-		@line
-	end
-
-	def get_my_name
-		@name
 	end
 end

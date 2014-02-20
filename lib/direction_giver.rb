@@ -10,20 +10,20 @@ class DirectionGiver
 	end
 
 	def transit_instructions(start, final)
-		if start.get_my_line != final.get_my_line
+		if start.line != final.line
 			transfer_instructions(start,final)
 		else
 			direction = direction(start,final)
 			number_of_stops = number_of_stops(start,final)
-			"Get on the #{start.get_my_line} at #{start.get_my_name} and take the train #{direction} for #{number_of_stops} stops, getting off at #{final.get_my_name}."
+			"Get on the #{start.line} at #{start.name} and take the train #{direction} for #{number_of_stops} stops, getting off at #{final.name}."
 		end
 	end
 
 	private
 
 	def transfer_instructions(start, final)
-		start_line = start.get_my_line
-		final_line = final.get_my_line
+		start_line = start.line
+		final_line = final.line
 		case start_line
 		when 'L'
 			transfer_once(start, final)
@@ -50,8 +50,8 @@ class DirectionGiver
 
 	def transfer_once(start, final)
 		start1 = start
-		start_line = start.get_my_line
-		final_line = final.get_my_line
+		start_line = start.line
+		final_line = final.line
 		case start_line
 		when 'L'
 			if final_line == 'F' ## L --> F
@@ -76,13 +76,13 @@ class DirectionGiver
 		direction2 = direction(start2, final)
 		stops1 = number_of_stops(start1, transfer)
 		stops2 = number_of_stops(start2, final)
-		"Get on the #{start1.get_my_line} at #{start1.get_my_name} and take the train #{direction1} for #{stops1} stops and get off at #{transfer.get_my_name}. Then, get on the #{start2.get_my_line} at #{start2.get_my_name}, ride the train #{direction2} for #{stops2} stops and get off at #{final.get_my_name}."
+		"Get on the #{start1.line} at #{start1.name} and take the train #{direction1} for #{stops1} stops and get off at #{transfer.name}. Then, get on the #{start2.line} at #{start2.name}, ride the train #{direction2} for #{stops2} stops and get off at #{final.name}."
 	end
 
 	def transfer_twice(start,final)
 		start1 = start
-		start_line = start.get_my_line
-		final_line = final.get_my_line
+		start_line = start.line
+		final_line = final.line
 		case start_line
 		when 'F'
 			if final_line == 'G' ## F --> L --> G
@@ -111,11 +111,11 @@ class DirectionGiver
 		stops1 = number_of_stops(start1, transfer)
 		stops2 = number_of_stops(start2, transfer2)
 		stops3 = number_of_stops(start3, final)
-		"Get on the #{start1.get_my_line} at #{start1.get_my_name} and take the train #{direction1} for #{stops1} stops and get off at #{transfer.get_my_name}. Then, get on the #{start2.get_my_line} at #{start2.get_my_name}, ride the train #{direction2} for #{stops2} stops and get off at #{transfer2.get_my_name}. Finally, get on the #{start3.get_my_line} at #{start3.get_my_name} and take the train #{direction3} for #{stops3} stops and get off at #{final.get_my_name}."
+		"Get on the #{start1.line} at #{start1.name} and take the train #{direction1} for #{stops1} stops and get off at #{transfer.name}. Then, get on the #{start2.line} at #{start2.name}, ride the train #{direction2} for #{stops2} stops and get off at #{transfer2.name}. Finally, get on the #{start3.line} at #{start3.name} and take the train #{direction3} for #{stops3} stops and get off at #{final.name}."
 	end
 
 	def get_station_for(stop)
-		@stations.select { |number, station| station[0] == stop.get_my_name }
+		@stations.select { |number, station| station[0] == stop.name }
 	end
 
 	def get_key_for(station)
@@ -123,7 +123,7 @@ class DirectionGiver
 	end
 
 	def direction(start,final)
-		start_line = start.get_my_line
+		start_line = start.line
 		start_entry = get_station_for(start)
 		final_entry = get_station_for(final)
 		start_num = get_key_for(start_entry)
