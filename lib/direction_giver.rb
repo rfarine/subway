@@ -10,7 +10,7 @@ class DirectionGiver
 	end
 
 	def transit_instructions(start, final)
-		if start.line != final.line
+		if need_to_transfer?(start, final)
 			transfer_instructions(start,final)
 		else
 			direction = direction(start,final)
@@ -20,6 +20,10 @@ class DirectionGiver
 	end
 
 	private
+
+	def need_to_transfer?(start, final)
+		start.line != final.line
+	end
 
 	def transfer_instructions(start, final)
 		start_line = start.line
